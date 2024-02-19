@@ -6,6 +6,7 @@
     <title>Document</title>
     <link href="bootstrap.min.css" rel="stylesheet" />
   </head>
+
   <body>
     <div class="container-fluid">
       <h1>Student:innenliste</h1>
@@ -23,15 +24,48 @@
     getAllData();
 
     async function getAllData() {
-      const response = await fetch("http://localhost:8080/api/v1/studenten", {
-        method: "GET",
-        cache: "no-cache",
-        header: {
-          Accept: "application/json",
-        },
-      });
-      const data = await response.json();
-      console.log(response);
+      try {
+        const response = await fetch("http://localhost:8080/api/v1/studenten", {
+          method: "GET",
+          cache: "no-cache",
+          header: {
+            Accept: "application/json",
+          },
+        });
+
+        const data = await response.json();
+
+        const table = document.getElementById("studentTable");
+        while (table.rows[0]) table.deleteRow(0);
+
+        var row = table.insertRow();
+        var id = row.insertCell(0);
+        var name = row.insertCell(1);
+        var plz = row.insertCell(2);
+        var action = row.insertCell(3);
+
+        id.innerHTML = "ID";
+        name.innerHTML = "Name";
+        plz.innerHTML = "Postleitzahl";
+        action.innerHTML = "";
+
+        data.forEach((student) => {
+          var row = table.insertRow();
+          var id = row.insertCell(0);
+          var name = row.insertCell(1);
+          var plz = row.insertCell(2);
+          var action = row.insertCell(3);
+          id.innerHTML = student.id;
+          name.innerHTML = student.name;
+          plz.innerHTML = student.plz;
+          action.innerHTML = "";
+        });
+      } catch (excetion) {
+        const table = document.getElementById("studentTable");
+        table.innerHTML = "Studentendaten konnten nicht geladen werden.";
+      }
+
+      console.log(data);
     }
   </script>
 </html>
