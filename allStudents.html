@@ -58,7 +58,7 @@
           id.innerHTML = student.id;
           name.innerHTML = student.name;
           plz.innerHTML = student.plz;
-          action.innerHTML = `<button type="button" class="btn btn-warning" onclick="deleteStudent(${student.id})">löschen</button>`;
+          action.innerHTML = `<a href="updatestudent.html?id=${student.id}&name=${student.name}&plz=${student.plz}" class="btn btn-info" role="button">bearbeiten</a><button type="button" class="btn btn-warning" onclick="deleteStudent(${student.id})">löschen</button>`;
         });
       } catch (excetion) {
         const table = document.getElementById("studentTable");
