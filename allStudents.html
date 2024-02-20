@@ -12,7 +12,7 @@
       <h1>Student:innenliste</h1>
       <hr class="border-2 border-top border-info" />
 
-      <a href="inertstudent.html" class="btn btn-info" role="button"
+      <a href="insertstudents.html" class="btn btn-info" role="button"
         >Student:innen hinzufügen</a
       >
       <hr class="border-2 border-top border-info" />
@@ -28,7 +28,7 @@
         const response = await fetch("http://localhost:8080/api/v1/studenten", {
           method: "GET",
           cache: "no-cache",
-          header: {
+          headers: {
             Accept: "application/json",
           },
         });
@@ -58,14 +58,32 @@
           id.innerHTML = student.id;
           name.innerHTML = student.name;
           plz.innerHTML = student.plz;
-          action.innerHTML = "";
+          action.innerHTML = `<button type="button" class="btn btn-warning" onclick="deleteStudent(${student.id})">löschen</button>`;
         });
       } catch (excetion) {
         const table = document.getElementById("studentTable");
         table.innerHTML = "Studentendaten konnten nicht geladen werden.";
       }
+    }
 
-      console.log(data);
+    async function deleteStudent(id) {
+      try {
+        const response = await fetch(
+          "http://localhost:8080/api/v1/studenten/" + id,
+          {
+            method: "DELETE",
+            cache: "no-cache",
+            headers: {
+              Accept: "application/json",
+            },
+          }
+        );
+
+        const data = await response.json();
+        getAllData();
+      } catch (excetion) {
+        alert("Fehler beim Löschen des Studenten!");
+      }
     }
   </script>
 </html>
